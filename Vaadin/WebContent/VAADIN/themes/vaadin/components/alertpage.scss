@@ -1,0 +1,26 @@
+
+
+@mixin alertpage{
+	.alertlist .v-select-select{
+		width:200px;
+	}
+	 .alertdetailcomponent{
+	 	display:block;
+	 	margin:10px;
+	 }
+	 
+	 .detailsection{
+	 	padding: 10px;
+		position:relative;
+		width:80%;
+		display:inline-block;
+		height:100%;
+	 }
+	 
+	 .listsection{
+		padding: 10px;
+		width:15%;
+		height:100%;
+		display:inline-block;
+	 }
+}
