@@ -1,7 +1,9 @@
 package com.vaadin.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -21,7 +23,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("vaadin")
 public class VaadinUI extends UI {
 
-	private List<Alert> alerts = new ArrayList<Alert>();
+	private Map<String,Alert> alerts = new HashMap<String, Alert>();
 	
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = VaadinUI.class)
@@ -36,7 +38,9 @@ public class VaadinUI extends UI {
 		setContent(mainPage);
 		createContentList();
 	}
-
+	
+	
+	// For dummy purpose. Replace this for real development
 	private void createContentList() {
 		NotificationType n = new NotificationType();
 		n.setId(1);
@@ -58,18 +62,25 @@ public class VaadinUI extends UI {
 		b.setSeverity(2);
 		b.setNotification(n1);
 		
-		alerts.add(a);
-		alerts.add(b);
+		insertIntoAlert("Title 2", a);
+		insertIntoAlert("Title 4", b);
+		insertIntoAlert("Title 7", a);
+		insertIntoAlert("Title 10", a);
+		insertIntoAlert("Title 8", b);
 		
 		
 	}
 
-	public List<Alert> getAlerts() {
+
+	public Map<String, Alert> getAlerts() {
 		return alerts;
 	}
 
-	public void addAlert(Alert alert){
-		alerts.add(alert);
+
+	public void insertIntoAlert(String key, Alert alert){
+		if(!alerts.containsKey(key)){
+			alerts.put(key, alert);
+		}
 	}
 	
 	

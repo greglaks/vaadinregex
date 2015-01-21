@@ -29,30 +29,11 @@ public class SearchPage extends CustomLayout implements View {
 	 */
 	private static final long serialVersionUID = 1L;
 	private CssLayout content = new CssLayout();
-	private List<Result> fakeList = new FakeList<>(100);
-	private final PagingComponent<Result> pagingComponent = new PagingComponent<>(5, 3, fakeList, new LazyPagingComponentListener<Result>(content) {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 9165964548422519578L;
-
-		@Override
-		protected Collection<Result> getItemsList(int startIndex, int endIndex) {
-			IBackendService productDao = new IBackendServiceImpl();
-			
-			return productDao.getItems(startIndex, endIndex);
-		}
-
-		@Override
-		protected Component displayItem(int index, Result item) {
-			ResultItem resultItem = new ResultItem(item, index);
-			return resultItem;
-		}
-	});
 	
-
-
+	private static final int ITEM_NUMBER_PER_PAGE = 5;
+	private static final int BUTTON_NUMBER_PAGE = 3;
+	
+	
 	public SearchPage(){
 		super("searchpage");
 		addStyleName("main");
@@ -63,6 +44,28 @@ public class SearchPage extends CustomLayout implements View {
 		DateField field1 = new DateField("Date 1:");
 		DateField field2 = new DateField("Field 2:");
 		TextField field3 = new TextField("Field 3:");
+		int resultSum = new IBackendServiceImpl().getSumAllProduct();
+		List<Result> fakeList = new FakeList<>(resultSum);
+		PagingComponent<Result> pagingComponent = new PagingComponent<>(ITEM_NUMBER_PER_PAGE, BUTTON_NUMBER_PAGE, fakeList, new LazyPagingComponentListener<Result>(content) {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 9165964548422519578L;
+
+				@Override
+				protected Collection<Result> getItemsList(int startIndex, int endIndex) {
+					IBackendService productDao = new IBackendServiceImpl();
+					
+					return productDao.getItems(startIndex, endIndex);
+				}
+
+				@Override
+				protected Component displayItem(int index, Result item) {
+					ResultItem resultItem = new ResultItem(item, index);
+					return resultItem;
+				}
+			});
 		
 		addComponent(field1, "field1");
 		addComponent(field2, "field2");

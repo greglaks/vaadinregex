@@ -39,14 +39,14 @@ public class MainPage extends CustomLayout {
 		createContents();
 	}
 	private void createContents() {
-		Button searchPageButton = new Button("Search page");
-		Button alertPageButton = new Button("Alert page");	
+//		Button searchPageButton = new Button("Search page");
+//		Button alertPageButton = new Button("Alert page");	
 		
-		searchPageButton.addClickListener(searchPageListener);
-		alertPageButton.addClickListener(alertPageListener);
+//		searchPageButton.addClickListener(searchPageListener);
+//		alertPageButton.addClickListener(alertPageListener);
 		
-		addComponent(searchPageButton, "searchpage");
-		addComponent(alertPageButton, "alertpage");
+//		addComponent(searchPageButton, "searchpage");
+//		addComponent(alertPageButton, "alertpage");
 		
 		CssLayout content = new CssLayout();
 		addComponent(content, "content");
@@ -55,7 +55,7 @@ public class MainPage extends CustomLayout {
 		((VaadinUI)UI.getCurrent()).setNavigator(n);
 		
 		n.addView("/searchpage", SearchPage.class);
-		n.addView("/alertpage", AlertPage.class);
+//		n.addView("/alertpage", AlertPage.class);
 		n.navigateTo("/searchpage");
 	}
 }

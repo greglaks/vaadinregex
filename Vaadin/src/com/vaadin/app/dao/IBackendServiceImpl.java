@@ -1,6 +1,8 @@
 package com.vaadin.app.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import com.vaadin.app.VaadinUI;
@@ -9,7 +11,9 @@ import com.vaadin.app.model.Result;
 import com.vaadin.ui.UI;
 
 public class IBackendServiceImpl implements IBackendService {
-
+	
+	
+	
 	@Override
 	public Result getByOne(long id) {
 		// TODO Auto-generated method stub
@@ -36,13 +40,20 @@ public class IBackendServiceImpl implements IBackendService {
 	}
 
 	@Override
-	public List<Alert> getAlerts() {
+	public Map<String, Alert> getAlerts() {
 		return ((VaadinUI) UI.getCurrent()).getAlerts();
 	}
 
 	@Override
-	public void createAlert(Alert alert) {
-		((VaadinUI) UI.getCurrent()).addAlert(alert);
+	public void createAlert(String key, Alert alert) {
+		((VaadinUI) UI.getCurrent()).insertIntoAlert(key, alert);
+	}
+
+	@Override
+	public Alert getAlertByText(String text) {
+		Map<String, Alert> alerts = ((VaadinUI) UI.getCurrent()).getAlerts();
+		Alert a = alerts.get(text);
+		return a;
 	}
 	
 

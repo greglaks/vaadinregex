@@ -12,6 +12,18 @@
   @include searchpage;
   @include alertpage;
 
+.colorgrey{
+	color:#717375;
+}
+.colorblue{
+	color:#43b4f9;
+}
+.colordark{
+	color:#333333;
+}
+.fontfamily{
+	font-family:Arial, Helvetica, sans-serif;
+}
 
 .mainform{
 	padding:20px;
@@ -25,7 +37,7 @@
 	display:block;
 	overflow:auto;
 	margin-bottom:10px;
-	background-color:#EDEDED;
+	background-color:rgba(246,246,246, 1);
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;

@@ -7027,9 +7027,13 @@ body .vaadin.v-app .v-app-loading {
 	position: relative;
 	width: 100%;
 	margin-bottom: 10px;
-	height: 100px;
 	padding: 10px;
-	border-bottom: 2px solid grey;
+	border-bottom: 1px solid rgb(223, 223, 223);
+}
+
+.vaadin .hasalert {
+	color: red;
+	font-size: 18px;
 }
 
 .vaadin .alertlist .v-select-select {
@@ -7056,6 +7060,22 @@ body .vaadin.v-app .v-app-loading {
 	display: inline-block;
 }
 
+.vaadin .colorgrey {
+	color: #717375;
+}
+
+.vaadin .colorblue {
+	color: #43b4f9;
+}
+
+.vaadin .colordark {
+	color: #333333;
+}
+
+.vaadin .fontfamily {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
 .vaadin .mainform {
 	padding: 20px;
 	height: 100%;
@@ -7069,7 +7089,7 @@ body .vaadin.v-app .v-app-loading {
 	display: block;
 	overflow: auto;
 	margin-bottom: 10px;
-	background-color: #EDEDED;
+	background-color: rgba(246, 246, 246, 1);
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
