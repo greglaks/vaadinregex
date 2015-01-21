@@ -7027,13 +7027,14 @@ body .vaadin.v-app .v-app-loading {
 	position: relative;
 	width: 100%;
 	margin-bottom: 10px;
-	padding: 10px;
+	padding: 5px;
 	border-bottom: 1px solid rgb(223, 223, 223);
 }
 
 .vaadin .hasalert {
-	color: red;
+	color: rgb(255, 126, 126);
 	font-size: 18px;
+	font-weight: bold;
 }
 
 .vaadin .alertlist .v-select-select {
@@ -7074,6 +7075,19 @@ body .vaadin.v-app .v-app-loading {
 
 .vaadin .fontfamily {
 	font-family: Arial, Helvetica, sans-serif;
+}
+
+.vaadin .defaultbutton {
+	background-color: #43b4f9;
+	color: #fff;
+	font-size: 11px;
+	padding: 14px 35px;
+	line-height: 12px;
+	text-transform: uppercase;
+}
+
+.vaadin .defaultbutton:hover {
+	background-color: #333333 !important;
 }
 
 .vaadin .mainform {

@@ -77,6 +77,9 @@ public class SearchPage extends CustomLayout implements View {
 		Button clearButton= new Button("Clear");
 		addComponent(clearButton, "clear");
 		
+		searchButton.setPrimaryStyleName("defaultbutton");
+		clearButton.setPrimaryStyleName("defaultbutton");
+		
 		addComponent(content, "result");
 		addComponent(pagingComponent, "paging");
 		

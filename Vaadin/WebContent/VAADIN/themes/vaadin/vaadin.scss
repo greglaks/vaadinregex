@@ -24,7 +24,17 @@
 .fontfamily{
 	font-family:Arial, Helvetica, sans-serif;
 }
-
+.defaultbutton{
+	background-color:#43b4f9;
+	color:#fff ;
+	font-size:11px;
+	padding:14px 35px;
+	line-height:12px;
+	text-transform:uppercase;
+}
+.defaultbutton:hover{
+	background-color:#333333 !important
+}
 .mainform{
 	padding:20px;
 	height:100%;
