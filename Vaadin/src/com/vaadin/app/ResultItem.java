@@ -10,6 +10,8 @@ import com.vaadin.app.dao.IBackendServiceImpl;
 import com.vaadin.app.model.Alert;
 import com.vaadin.app.model.NotificationType;
 import com.vaadin.app.model.Result;
+import com.vaadin.component.MyText;
+import com.vaadin.component.MyText.OnSelectListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
@@ -53,27 +55,21 @@ public class ResultItem extends CssLayout {
 		// 2. If not found window will appear to let the user fill the alert pattern
 		// 3. If found, get the alert object and set the values into the form
 		
-		final Button link = new Button("Title "+String.valueOf(index));
-		link.setHtmlContentAllowed(true);
-		this.alert =  backendService.getAlertByText(link.getCaption());
+		final MyText resultText = new MyText("Title "+String.valueOf(index));
+		this.alert =  backendService.getAlertByText(resultText.getCaption());
 		if(alert != null)
-			link.setCaption(link.getCaption()+"<span class='hasalert'> !</span>");
-		link.addStyleName("link");
-		link.addClickListener(new ClickListener() {
+			resultText.setCaption(resultText.getCaption()+"<span class='hasalert'> !</span>");
+//		resultText.addStyleName("link");
+		resultText.addSelectListener(new OnSelectListener() {
 			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -2251731424068035664L;
-
 			@Override
-			public void buttonClick(ClickEvent event) {
-				Button b = event.getButton();
-				Window w = createPopupWindow(b);
+			public void onSelect(String text) {
+				Window w = createPopupWindow(text);
 				UI.getCurrent().addWindow(w);
+				
 			}
 		});
-		
+				
 		textfield1.setValue("Title "+String.valueOf(index));
 		textfield2.setValue("This is item #"+String.valueOf(index));
 		textfield3.setValue(d1 +" - "+ d2);
@@ -90,7 +86,7 @@ public class ResultItem extends CssLayout {
 		textfield2.addStyleName("rsitemstyle");
 		textfield3.addStyleName("rsitemstyle");
 		
-		layout.addComponent(link);
+		layout.addComponent(resultText);
 		layout.addComponent(textfield2);
 		layout.addComponent(textfield3);
 		layout.setMargin(true);
@@ -100,9 +96,9 @@ public class ResultItem extends CssLayout {
 		
 	}
 
-	protected Window createPopupWindow(Button b) {
+	protected Window createPopupWindow(String text) {
 		Window w = new Window();
-		CssLayout content = createWindowForm(b, w);
+		CssLayout content = createWindowForm(text, w);
 		w.setContent(content);
 		w.setModal(true);
 		w.setResizable(false);
@@ -111,7 +107,7 @@ public class ResultItem extends CssLayout {
 		return w;
 	}
 
-	private CssLayout createWindowForm(final Button b, final Window w) {
+	private CssLayout createWindowForm(final String text, final Window w) {
 		CssLayout layout = new CssLayout();
 		FormLayout form = new FormLayout();
 		
@@ -124,9 +120,14 @@ public class ResultItem extends CssLayout {
 			severityText.setValue(String.valueOf(alert.getSeverity()));
 			patternText.setValue(alert.getPattern());
 		}
+		else{
+			nameText.setValue(text);
+		}
 		insertNotificationItems(notificationCombo, alert);
 		
 		Button insertButton = new Button("Create");
+		insertButton.setPrimaryStyleName("defaultbutton");
+		insertButton.addStyleName("distancetop");
 		insertButton.addClickListener(new ClickListener() {
 			
 			@Override
@@ -144,9 +145,8 @@ public class ResultItem extends CssLayout {
 				notificationType.setLabel(notification);
 				alert.setNotification(notificationType);
 				IBackendService bService = new IBackendServiceImpl();
-				bService.createAlert(b.getCaption(), alert);
-				b.setHtmlContentAllowed(true);
-				b.setCaption(b.getCaption()+"<span class='hasalert'> !</span>");
+				bService.createAlert(text, alert);
+//				.setCaption(b.getCaption()+"<span class='hasalert'> !</span>");
 				UI.getCurrent().removeWindow(w);
 				event.getButton().setData(alert);
 			}

@@ -72,9 +72,11 @@ public class SearchPage extends CustomLayout implements View {
 		addComponent(field3, "field3");
 		
 		Button searchButton = new Button("Search");
+		searchButton.addStyleName("distancetop");
 		addComponent(searchButton, "search");
 		
 		Button clearButton= new Button("Clear");
+		clearButton.addStyleName("distancetop");
 		addComponent(clearButton, "clear");
 		
 		searchButton.setPrimaryStyleName("defaultbutton");

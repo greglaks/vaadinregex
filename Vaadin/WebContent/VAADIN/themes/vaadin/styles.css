@@ -7087,7 +7087,12 @@ body .vaadin.v-app .v-app-loading {
 }
 
 .vaadin .defaultbutton:hover {
+	cursor: pointer;
 	background-color: #333333 !important;
+}
+
+.vaadin .distancetop {
+	margin-top: 10px;
 }
 
 .vaadin .mainform {
