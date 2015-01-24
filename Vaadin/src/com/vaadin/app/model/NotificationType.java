@@ -21,6 +21,10 @@ public class NotificationType implements Serializable{
 	public void setLabel(String label) {
 		this.label = label;
 	}
+	@Override
+	public int hashCode() {
+		return (int) id;
+	}
 	
 	
 }

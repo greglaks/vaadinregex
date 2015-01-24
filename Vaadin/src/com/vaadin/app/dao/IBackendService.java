@@ -12,7 +12,8 @@ public interface IBackendService {
 	public List<Result> getItems(int start, int end);
 	public int getSumAllProduct();
 	public Result getByOne(long id);
-	public Map<String, Alert> getAlerts();
-	public void createAlert(String key, Alert alert);
+	public List<Alert> getAlerts();
+	public void createAlert(Alert alert);
 	public Alert getAlertByText(String text);
+	public void deleteAlert(Alert a);
 }

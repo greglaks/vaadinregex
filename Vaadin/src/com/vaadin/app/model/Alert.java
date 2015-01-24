@@ -39,6 +39,13 @@ public class Alert implements Serializable {
 	public void setSeverity(int severity) {
 		this.severity = severity;
 	}
+	
+	@Override
+	public int hashCode() {
+		String s = String.valueOf(name.hashCode());
+		int value = Integer.valueOf(s);
+		return value;
+	}
     
     
 

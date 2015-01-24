@@ -30,7 +30,7 @@ public class SearchPage extends CustomLayout implements View {
 	private static final long serialVersionUID = 1L;
 	private CssLayout content = new CssLayout();
 	
-	private static final int ITEM_NUMBER_PER_PAGE = 5;
+	private static final int ITEM_NUMBER_PER_PAGE = 10;
 	private static final int BUTTON_NUMBER_PAGE = 3;
 	
 	

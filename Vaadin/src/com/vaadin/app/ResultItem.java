@@ -17,6 +17,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.TextField;
@@ -30,7 +31,8 @@ public class ResultItem extends CssLayout {
 	private int index;
 	private IBackendService backendService = new IBackendServiceImpl();
 	private Alert alert = null;
-
+	private String textCaption = "";
+	private final MyText resultText = new MyText();
 	
 	public ResultItem(Result item, int index){
 		this.item = item;
@@ -40,26 +42,24 @@ public class ResultItem extends CssLayout {
 	}
 
 	private void createContents() {
-		VerticalLayout layout = new VerticalLayout();
-		TextField textfield1 = new TextField();
-		TextField textfield2 = new TextField();
-		TextField textfield3 = new TextField();
-		
 		Date d = Calendar.getInstance().getTime();
-		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat format = new SimpleDateFormat("HH:mm:ss,SSS");
 		String d1 = format.format(d);
-		String d2 = format.format(d);
 		
-		// On click/selecting the text:
-		// 1. Search the text
-		// 2. If not found window will appear to let the user fill the alert pattern
-		// 3. If found, get the alert object and set the values into the form
+		CssLayout layout = new CssLayout();
+		layout.addStyleName("paddingnormal");
 		
-		final MyText resultText = new MyText("Title "+String.valueOf(index));
-		this.alert =  backendService.getAlertByText(resultText.getCaption());
-		if(alert != null)
-			resultText.setCaption(resultText.getCaption()+"<span class='hasalert'> !</span>");
-//		resultText.addStyleName("link");
+		//TODO: Replace textCaption with the actual text from Result object
+		textCaption = d1+" WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (EJB default - 10) SQL Error: 0, SQLState: 23502"+String.valueOf(index);
+		resultText.setCaption(textCaption);
+		
+		//TODO: Write your implementation to get the alert based on criteria
+		this.alert =  backendService.getAlertByText(textCaption);
+		if(alert != null){
+			textCaption = textCaption+"<span class='hasalert'> !</span>";			
+		}
+		
+		resultText.setCaption(textCaption);
 		resultText.addSelectListener(new OnSelectListener() {
 			
 			@Override
@@ -69,29 +69,8 @@ public class ResultItem extends CssLayout {
 				
 			}
 		});
-				
-		textfield1.setValue("Title "+String.valueOf(index));
-		textfield2.setValue("This is item #"+String.valueOf(index));
-		textfield3.setValue(d1 +" - "+ d2);
-		
-		textfield1.setReadOnly(true);
-		textfield2.setReadOnly(true);
-		textfield3.setReadOnly(true);
-		
-		textfield1.setImmediate(true);
-		textfield2.setImmediate(true);
-		textfield3.setImmediate(true);
-		
-		textfield1.addStyleName("rsitemstyle");
-		textfield2.addStyleName("rsitemstyle");
-		textfield3.addStyleName("rsitemstyle");
 		
 		layout.addComponent(resultText);
-		layout.addComponent(textfield2);
-		layout.addComponent(textfield3);
-		layout.setMargin(true);
-		layout.setSpacing(true);
-		
 		addComponent(layout);
 		
 	}
@@ -119,10 +98,11 @@ public class ResultItem extends CssLayout {
 			nameText.setValue(alert.getName());
 			severityText.setValue(String.valueOf(alert.getSeverity()));
 			patternText.setValue(alert.getPattern());
-		}
-		else{
+		}else{
 			nameText.setValue(text);
+			patternText.setValue(text);
 		}
+
 		insertNotificationItems(notificationCombo, alert);
 		
 		Button insertButton = new Button("Create");
@@ -145,14 +125,12 @@ public class ResultItem extends CssLayout {
 				notificationType.setLabel(notification);
 				alert.setNotification(notificationType);
 				IBackendService bService = new IBackendServiceImpl();
-				bService.createAlert(text, alert);
-//				.setCaption(b.getCaption()+"<span class='hasalert'> !</span>");
+				bService.createAlert(alert);
+				resultText.setCaption(textCaption+"<span class='hasalert'> !</span>");
 				UI.getCurrent().removeWindow(w);
 				event.getButton().setData(alert);
 			}
 		});
-		
-		nameText.setEnabled(false);
 		
 		form.addComponent(nameText);
 		form.addComponent(severityText);
@@ -161,6 +139,7 @@ public class ResultItem extends CssLayout {
 		form.addComponent(insertButton);
 		
 		layout.addComponent(form);
+		layout.addStyleName("paddingnormal");
 		
 		return layout;
 	}

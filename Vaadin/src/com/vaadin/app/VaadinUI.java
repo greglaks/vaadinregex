@@ -23,7 +23,8 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("vaadin")
 public class VaadinUI extends UI {
 
-	private Map<String,Alert> alerts = new HashMap<String, Alert>();
+	private List<Alert> alerts = new ArrayList<Alert>();
+	private List<NotificationType> notificationTypeList = new ArrayList<NotificationType>();
 	
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = VaadinUI.class)
@@ -50,6 +51,9 @@ public class VaadinUI extends UI {
 		n1.setId(2);
 		n1.setLabel("SMS");
 		
+		notificationTypeList.add(n);
+		notificationTypeList.add(n1);
+		
 		Alert a = new Alert();
 		a.setName("Check number at begining");
 		a.setPattern("^[^\\d].*");
@@ -62,25 +66,32 @@ public class VaadinUI extends UI {
 		b.setSeverity(2);
 		b.setNotification(n1);
 		
-		insertIntoAlert("Title 2", a);
-		insertIntoAlert("Title 4", b);
-		insertIntoAlert("Title 7", a);
-		insertIntoAlert("Title 10", a);
-		insertIntoAlert("Title 8", b);
-		
+		alerts.add(a);
+		alerts.add(b);
 		
 	}
 
+	public List<NotificationType> getNotificationTypes(){
 
-	public Map<String, Alert> getAlerts() {
+		return notificationTypeList;
+	}
+
+	public List<Alert> getAlerts() {
+			
 		return alerts;
 	}
 
 
-	public void insertIntoAlert(String key, Alert alert){
-		if(!alerts.containsKey(key)){
-			alerts.put(key, alert);
+	public void addAlert(Alert alert){
+		if(!alerts.contains(alert)){
+			alerts.add(alert);
 		}
+	}
+
+
+	public void deleteAlert(Alert a) {	
+		alerts.remove(a);
+		
 	}
 	
 	

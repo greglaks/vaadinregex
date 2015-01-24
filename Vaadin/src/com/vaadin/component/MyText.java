@@ -22,29 +22,23 @@ public class MyText extends AbstractJavaScriptComponent {
 		public void onSelect(String text);
 	}
 	private List<OnSelectListener> onSelectListenerList = new ArrayList<OnSelectListener>();
+	public MyText(){
+		addFunction();
+	}
 	public MyText(String text){
-		
-		getState().selectText = text;
-		addFunction("onTextSelected", new JavaScriptFunction() {
-			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2587930991130481395L;
-
-			@Override
-			public void call(JSONArray arguments) throws JSONException {
-				String text = (String) arguments.get(0);
-				for(OnSelectListener selectListener : onSelectListenerList){
-					selectListener.onSelect(text);
-				}
-
-			}
-		});
+		setCaption(text);
+		addFunction();
 	}
 	
 	public void addSelectListener(OnSelectListener selectListener){
 		onSelectListenerList.add(selectListener);
+	}
+	
+	
+
+	@Override
+	public void setCaption(String caption) {
+		getState().selectText = caption;
 	}
 
 	@Override
@@ -53,7 +47,24 @@ public class MyText extends AbstractJavaScriptComponent {
 		return (MyTextState) super.getState();
 	}
 	
-	
+	private void addFunction(){
+		addFunction("onTextSelected", new JavaScriptFunction() {
+					
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 2587930991130481395L;
+		
+					@Override
+					public void call(JSONArray arguments) throws JSONException {
+						String text = (String) arguments.get(0);
+						for(OnSelectListener selectListener : onSelectListenerList){
+							selectListener.onSelect(text);
+						}
+		
+					}
+			});
+	}
 
 	
 	

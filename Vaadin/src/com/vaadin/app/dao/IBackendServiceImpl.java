@@ -24,36 +24,43 @@ public class IBackendServiceImpl implements IBackendService {
 
 	@Override
 	public List<Result> getItems(int start, int end) {
-		List<Result> products = new Vector<Result>();
+		List<Result> results = new Vector<Result>();
 		for(int i=start; i<end; i++){
-			products.add(new Result());
+			results.add(new Result());
 		}
 	
 		
-		return products;
+		return results;
 	}
 
 	@Override
 	public int getSumAllProduct() {
 		// TODO Auto-generated method stub
-		return 20;
+		return 40;
 	}
 
 	@Override
-	public Map<String, Alert> getAlerts() {
+	public List<Alert> getAlerts() {
 		return ((VaadinUI) UI.getCurrent()).getAlerts();
 	}
 
 	@Override
-	public void createAlert(String key, Alert alert) {
-		((VaadinUI) UI.getCurrent()).insertIntoAlert(key, alert);
+	public void createAlert(Alert alert) {
+		((VaadinUI) UI.getCurrent()).addAlert(alert);
 	}
 
 	@Override
 	public Alert getAlertByText(String text) {
-		Map<String, Alert> alerts = ((VaadinUI) UI.getCurrent()).getAlerts();
-		Alert a = alerts.get(text);
-		return a;
+
+		return null;
+	}
+
+
+
+	@Override
+	public void deleteAlert(Alert a) {
+		((VaadinUI)UI.getCurrent()).deleteAlert(a);
+		
 	}
 	
 
