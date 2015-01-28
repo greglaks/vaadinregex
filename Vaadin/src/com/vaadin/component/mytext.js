@@ -10,13 +10,13 @@ com_vaadin_component_MyText = function() {
 	
 	
 	e.onmouseup = function(s){
-//			   var selectText = "";
-//				if (window.getSelection) {
-//					selectText = window.getSelection().toString();
-//			    } else if (document.selection && document.selection.type != "Control") {
-//			    	selectText = document.selection.createRange().text;
-//			    }
-//				connector.onTextSelected(selectText);
+			   var selectText = "";
+				if (window.getSelection) {
+					selectText = window.getSelection().toString();
+			    } else if (document.selection && document.selection.type != "Control") {
+			    	selectText = document.selection.createRange().text;
+			    }
+				connector.onTextSelected(selectText);
 				e.innerHTML = text;
 				
 };
