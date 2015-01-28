@@ -8,10 +8,12 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import com.vaadin.annotations.StyleSheet;
 import com.vaadin.shared.ui.JavaScriptComponentState;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vaadin.ui.JavaScriptFunction;
 @com.vaadin.annotations.JavaScript({"https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", "mytext.js" })
+@StyleSheet("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
 public class MyText extends AbstractJavaScriptComponent {
 
 	/**
@@ -64,6 +66,7 @@ public class MyText extends AbstractJavaScriptComponent {
 		
 					}
 			});
+	
 	}
 
 	

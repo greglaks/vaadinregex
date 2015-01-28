@@ -12,15 +12,17 @@
 	 .detailsection{
 	 	padding: 10px;
 		position:relative;
-		width:80%;
+		width:75%;
 		display:inline-block;
 		height:100%;
+		float:right;
 	 }
 	 
 	 .listsection{
 		padding: 10px;
-		width:15%;
+		width:20%;
 		height:100%;
+		float:left;
 		display:inline-block;
 	 }
 }

@@ -44,28 +44,21 @@ public class SearchPage extends CustomLayout implements View {
 		DateField field1 = new DateField("Date 1:");
 		DateField field2 = new DateField("Field 2:");
 		TextField field3 = new TextField("Field 3:");
-		int resultSum = new IBackendServiceImpl().getSumAllProduct();
-		List<Result> fakeList = new FakeList<>(resultSum);
-		PagingComponent<Result> pagingComponent = new PagingComponent<>(ITEM_NUMBER_PER_PAGE, BUTTON_NUMBER_PAGE, fakeList, new LazyPagingComponentListener<Result>(content) {
+		Paging paging = new Paging(ITEM_NUMBER_PER_PAGE, content, new IPageLayoutOperation<Result>() {
 
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 9165964548422519578L;
+			@Override
+			public List<Result> getResults(int start, int end) {
+				IBackendService productDao = new IBackendServiceImpl();
+				
+				return productDao.getItems(start, end);
+			}
 
-				@Override
-				protected Collection<Result> getItemsList(int startIndex, int endIndex) {
-					IBackendService productDao = new IBackendServiceImpl();
-					
-					return productDao.getItems(startIndex, endIndex);
-				}
-
-				@Override
-				protected Component displayItem(int index, Result item) {
-					ResultItem resultItem = new ResultItem(item, index);
-					return resultItem;
-				}
-			});
+			@Override
+			public Component getItem(int index, Result e) {
+				ResultItem resultItem = new ResultItem(e, index);
+				return resultItem;
+			}
+		});
 		
 		addComponent(field1, "field1");
 		addComponent(field2, "field2");
@@ -83,7 +76,7 @@ public class SearchPage extends CustomLayout implements View {
 		clearButton.setPrimaryStyleName("defaultbutton");
 		
 		addComponent(content, "result");
-		addComponent(pagingComponent, "paging");
+		addComponent(paging, "paging");
 		
 	}
 

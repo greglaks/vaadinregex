@@ -7027,7 +7027,7 @@ body .vaadin.v-app .v-app-loading {
 	position: relative;
 	width: 100%;
 	margin-bottom: 10px;
-	padding: 5px;
+	padding: 15px;
 	border-bottom: 1px solid rgb(223, 223, 223);
 }
 
@@ -7049,15 +7049,17 @@ body .vaadin.v-app .v-app-loading {
 .vaadin .detailsection {
 	padding: 10px;
 	position: relative;
-	width: 80%;
+	width: 75%;
 	display: inline-block;
 	height: 100%;
+	float: right;
 }
 
 .vaadin .listsection {
 	padding: 10px;
-	width: 15%;
+	width: 20%;
 	height: 100%;
+	float: left;
 	display: inline-block;
 }
 

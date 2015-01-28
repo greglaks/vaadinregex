@@ -24,12 +24,13 @@ public class IBackendServiceImpl implements IBackendService {
 
 	@Override
 	public List<Result> getItems(int start, int end) {
+		int max = getSumAllProduct();
+		
 		List<Result> results = new Vector<Result>();
-		for(int i=start; i<end; i++){
+		for(int i=start; i<end && end <= max; i++){
 			results.add(new Result());
 		}
-	
-		
+			
 		return results;
 	}
 

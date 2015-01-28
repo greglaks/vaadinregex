@@ -24,7 +24,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class ResultItem extends CssLayout {
+public class ResultItem extends MyText {
 
 	private static final long serialVersionUID = 3545202531484800153L;
 	private Result item;
@@ -32,7 +32,6 @@ public class ResultItem extends CssLayout {
 	private IBackendService backendService = new IBackendServiceImpl();
 	private Alert alert = null;
 	private String textCaption = "";
-	private final MyText resultText = new MyText();
 	
 	public ResultItem(Result item, int index){
 		this.item = item;
@@ -44,14 +43,11 @@ public class ResultItem extends CssLayout {
 	private void createContents() {
 		Date d = Calendar.getInstance().getTime();
 		DateFormat format = new SimpleDateFormat("HH:mm:ss,SSS");
-		String d1 = format.format(d);
 		
-		CssLayout layout = new CssLayout();
-		layout.addStyleName("paddingnormal");
 		
 		//TODO: Replace textCaption with the actual text from Result object
-		textCaption = d1+" WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (EJB default - 10) SQL Error: 0, SQLState: 23502"+String.valueOf(index);
-		resultText.setCaption(textCaption);
+		textCaption =" WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (EJB default - 10) SQL Error: 0, SQLState: 23502 "+String.valueOf(index);
+		setCaption(textCaption);
 		
 		//TODO: Write your implementation to get the alert based on criteria
 		this.alert =  backendService.getAlertByText(textCaption);
@@ -59,8 +55,7 @@ public class ResultItem extends CssLayout {
 			textCaption = textCaption+"<span class='hasalert'> !</span>";			
 		}
 		
-		resultText.setCaption(textCaption);
-		resultText.addSelectListener(new OnSelectListener() {
+		addSelectListener(new OnSelectListener() {
 			
 			@Override
 			public void onSelect(String text) {
@@ -70,8 +65,6 @@ public class ResultItem extends CssLayout {
 			}
 		});
 		
-		layout.addComponent(resultText);
-		addComponent(layout);
 		
 	}
 
@@ -126,7 +119,7 @@ public class ResultItem extends CssLayout {
 				alert.setNotification(notificationType);
 				IBackendService bService = new IBackendServiceImpl();
 				bService.createAlert(alert);
-				resultText.setCaption(textCaption+"<span class='hasalert'> !</span>");
+				setCaption(textCaption+"<span class='hasalert'> !</span>");
 				UI.getCurrent().removeWindow(w);
 				event.getButton().setData(alert);
 			}
