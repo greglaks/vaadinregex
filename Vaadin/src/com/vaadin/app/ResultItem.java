@@ -43,10 +43,14 @@ public class ResultItem extends MyText {
 	private void createContents() {
 		Date d = Calendar.getInstance().getTime();
 		DateFormat format = new SimpleDateFormat("HH:mm:ss,SSS");
-		
-		
+
 		//TODO: Replace textCaption with the actual text from Result object
-		textCaption =" WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (EJB default - 10) SQL Error: 0, SQLState: 23502 "+String.valueOf(index);
+		if(index == 2){
+			textCaption = "08:50:45,770 WARN <xml>"+
+						  "<test>"+
+						  "</xml> ";
+		}else
+			textCaption =" WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (EJB default - 10) SQL Error: 0, SQLState: 23502 "+String.valueOf(index);
 		setCaption(textCaption);
 		
 		//TODO: Write your implementation to get the alert based on criteria
