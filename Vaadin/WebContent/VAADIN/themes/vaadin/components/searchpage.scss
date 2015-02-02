@@ -1,10 +1,5 @@
 @mixin searchpage{
-	&.v-app input.v-textfield-rsitemstyle.v-widget{
-		background:transparent;
-		padding:7px 2px;
-		border:none;
-		color:grey;
-	}
+
 	.rsingleitem{
 		position:relative;
 		width:100%;

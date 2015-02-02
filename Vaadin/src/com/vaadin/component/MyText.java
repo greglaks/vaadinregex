@@ -59,13 +59,28 @@ public class MyText extends AbstractJavaScriptComponent {
 		
 					@Override
 					public void call(JSONArray arguments) throws JSONException {
-						String text = (String) arguments.get(0);
+						String text = getState().sss;
 						for(OnSelectListener selectListener : onSelectListenerList){
 							selectListener.onSelect(text);
 						}
 		
 					}
 			});
+		
+		addFunction("sendSelectedText", new JavaScriptFunction() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2587930991130481395L;
+
+			@Override
+			public void call(JSONArray arguments) throws JSONException {
+				String text = (String) arguments.get(0);
+				getState().sss = text;
+
+			}
+	});
 	
 	}
 

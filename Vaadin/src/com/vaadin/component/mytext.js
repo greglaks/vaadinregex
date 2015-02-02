@@ -12,24 +12,33 @@ com_vaadin_component_MyText = function() {
 	
 	
 	e.onmouseup = function(s){
-			e.innerHTML = text;
+		 var selectText = "";
+			if (window.getSelection) {
+				selectText = window.getSelection().toString();
+		    } else if (document.selection && document.selection.type != "Control") {
+		    	selectText = document.selection.createRange().text;
+		    }
+			connector.sendSelectedText(selectText);
+		
+		   e.innerHTML = text;
 		   var posX = s.clientX;
 		   var posY = s.clientY;
 		   
-		   var top = (posY - 15) + 'px';
+		   var top = (posY - 25) + 'px';
 		   var left = (posX + 15) + 'px';
 		   
 		   //var b = document.createTextNode("<div onclick=saveAlert(); class='fa fa-bell' style='position:fixed;top:"+top+";left:"+left+";color:#e74c3c;z-index:10;'></div>");
 		   var b = document.createElement("DIV");
-		   b.id = "bellbutton";
+		   
 		   button = b;
-		   b.style.cssText = "position:fixed;top:"+top+";left:"+left+";color:#e74c3c;z-index:10;";
+		   b.style.cssText = "position:fixed;top:"+top+";left:"+left+";color:#e74c3c;";
 		   b.classList.add("fa");
 		   b.classList.add("fa-bell");
+		  //var text = window.getSelection();
 		   b.addEventListener("click", function(){ 
 				   var selectText = "";
 					if (window.getSelection) {
-						selectText = window.getSelection().toString();
+						selectText = text;
 				    } else if (document.selection && document.selection.type != "Control") {
 				    	selectText = document.selection.createRange().text;
 				    }
@@ -46,23 +55,16 @@ com_vaadin_component_MyText = function() {
 		   var posX = s.clientX;
 		   var posY = s.clientY;
 		   
-		   var top = (posY - 15) + 'px';
+		   var top = (posY - 25) + 'px';
 		   var left = (posX - 15) + 'px';
 		   
-		   var bell = "<div id='bell' class='fa fa-bell' style='position:fixed;top:"+top+";left:"+left+";color:#e74c3c'></div>";
-		   e.innerHTML = text + bell;
+		   var bell = "<div class='fa fa-bell' style='position:fixed;top:"+top+";left:"+left+";color:#e74c3c></div>";
+		   
+		  // e.innerHTML = text + bell;
+		
 		  
 			
 	};
-	function saveAlert(){
-		var selectText = "";
-		if (window.getSelection) {
-			selectText = window.getSelection().toString();
-	    } else if (document.selection && document.selection.type != "Control") {
-	    	selectText = document.selection.createRange().text;
-	    }
-		connector.onTextSelected(selectText);
-		e.innerHTML = text;		
-	}
+	
 	
 }

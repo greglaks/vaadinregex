@@ -7016,13 +7016,6 @@ body .vaadin.v-app .v-app-loading {
 	background-image: url(../reindeer/window/img/black/content-bg.png);/** sprite-ref: black-verticals; sprite-alignment: repeat */
 }
 
-.vaadin.v-app input.v-textfield-rsitemstyle.v-widget {
-	background: transparent;
-	padding: 7px 2px;
-	border: none;
-	color: grey;
-}
-
 .vaadin .rsingleitem {
 	position: relative;
 	width: 100%;

@@ -46,9 +46,9 @@ public class ResultItem extends MyText {
 
 		//TODO: Replace textCaption with the actual text from Result object
 		if(index == 2){
-			textCaption = "08:50:45,770 WARN <xml>"+
-						  "<test>"+
-						  "</xml> ";
+			textCaption = "08:50:45,770 WARN  \n <xml>"+
+						  "\n <test>"+
+						  "\n </xml> ";
 		}else
 			textCaption =" WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (EJB default - 10) SQL Error: 0, SQLState: 23502 "+String.valueOf(index);
 		setCaption(textCaption);
