@@ -20,7 +20,7 @@ com_vaadin_component_MyText = function() {
 		    }
 			connector.sendSelectedText(selectText);
 		
-		   e.innerHTML = text;
+		   //e.innerHTML = text;
 		   var posX = s.clientX;
 		   var posY = s.clientY;
 		   
@@ -29,7 +29,9 @@ com_vaadin_component_MyText = function() {
 		   
 		   //var b = document.createTextNode("<div onclick=saveAlert(); class='fa fa-bell' style='position:fixed;top:"+top+";left:"+left+";color:#e74c3c;z-index:10;'></div>");
 		   var b = document.createElement("DIV");
-		   
+		   var currentRange = window.getSelection().getRangeAt(0);
+		   var startNode = currentRange.startContainer;
+		   var endNode = currentRange.endContainer;
 		   button = b;
 		   b.style.cssText = "position:fixed;top:"+top+";left:"+left+";color:#e74c3c;";
 		   b.classList.add("fa");
@@ -47,7 +49,7 @@ com_vaadin_component_MyText = function() {
 			   });
 		   //var bell = ;
 		   parent.appendChild(b);
-		   $(b).delay(1000).fadeOut('slow');
+		   $(b).delay(4000).fadeOut('slow');
 				
 };
 
