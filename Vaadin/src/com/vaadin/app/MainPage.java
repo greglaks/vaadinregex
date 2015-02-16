@@ -33,7 +33,17 @@ public class MainPage extends CustomLayout {
 		}
 	};
 
+	private ClickListener regexTestListener = new ClickListener(){
+
+		@Override
+		public void buttonClick(ClickEvent event) {
+			n.navigateTo("/regextestpage");
+			
+		}
+		
+	};
 	private Navigator n;
+
 	public MainPage(){
 		super("main");
 		createContents();
@@ -41,16 +51,22 @@ public class MainPage extends CustomLayout {
 	private void createContents() {
 		Button searchPageButton = new Button("Search page");
 		Button alertPageButton = new Button("Alert page");
+		Button regexTestPageButton = new Button("Regex test page");
 		
 		searchPageButton.setPrimaryStyleName("menuitem");
 		alertPageButton.setPrimaryStyleName("menuitem");
 		alertPageButton.addStyleName("distanceleft");
 		
+		regexTestPageButton.setPrimaryStyleName("menuitem");
+		regexTestPageButton.addStyleName("distanceleft");
+		
 		searchPageButton.addClickListener(searchPageListener);
 		alertPageButton.addClickListener(alertPageListener);
+		regexTestPageButton.addClickListener(regexTestListener);
 		
 		addComponent(searchPageButton, "searchpage");
 		addComponent(alertPageButton, "alertpage");
+		addComponent(regexTestPageButton, "regextestpage");
 		
 		CssLayout content = new CssLayout();
 		addComponent(content, "content");
@@ -60,6 +76,7 @@ public class MainPage extends CustomLayout {
 		
 		n.addView("/searchpage", SearchPage.class);
 		n.addView("/alertpage", AlertPage.class);
+		n.addView("/regextestpage", RegexTestPage.class);
 		n.navigateTo("/searchpage");
 	}
 }
