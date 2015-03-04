@@ -1,22 +1,37 @@
 package com.vaadin.app;
 
 /**
- * %C - class name
- * %d - time information
- * %p - priority OFF | FATAL | ERROR | WARN | INFO | DEBUG | TRACE | ALL
- * %t - thread
+ * 		%C - class name. ex. %C{2}
+ * 		%d - time information. ex. %d{yyyy,MM,dd,HH,mm,ss,SSS}
+ * 		%p - priority OFF | FATAL | ERROR | WARN | INFO | DEBUG | TRACE | ALL
+ * 		%t - thread
+ * 		%F - File name
+ * 		%L - Line number
  * 
+ * 		%I - Output location
+ * 		%m - supplied message
+ * 		%M - method name
+ * 		%n - line separator
+ * 		%r - 
+ * %x - NDC 
+ * %X - conversion character  
  */
+import com.vaadin.app.model.CBData;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class RegexTestPage extends VerticalLayout implements View {
@@ -33,52 +48,90 @@ public class RegexTestPage extends VerticalLayout implements View {
 			String format = textAreaFormat.getValue();
 			String[] all = format.split(" ");
 			String allRegex = "";
-			for(int i=0; i<all.length; i++){
-				String oneFormat = all[i];
-				if(oneFormat.equals("%c")){
+			try{
+				for(int i=0;i<all.length;i++){
+					String singleFormat = all[i];
+					int indexOfFirstBracket = singleFormat.indexOf("(")+1;
+					int indexFormat = singleFormat.indexOf("%");
+					int indexOfLastBracket = singleFormat.indexOf(")") ;
+					int indexOfLastFormat = indexFormat+2;
+					String firstPlus = singleFormat.substring(indexOfFirstBracket, indexFormat).trim();
+					String lastPlust = singleFormat.substring(indexOfLastFormat, indexOfLastBracket).trim();
+					String formatRegex = singleFormat.substring(indexFormat, indexOfLastFormat).trim();
 					
-				}
-				else if(oneFormat.equals("%C")){
-					String t = "(?=[\\.{1,}][a-z]) ";
-					allRegex = allRegex + t;
-				}
-				else if(oneFormat.equals("%d")){
-					String t = "(?=([0-9]+):([0-5][0-9]|60):([0-5][0-9]|60),([0-9]{3})) ";
-					allRegex = allRegex + t;
-				}
-				else if(oneFormat.equals("%F")){
 					
-				}
-				else if(oneFormat.equals("%I")){
+					String regexFirst = "" ;
+					String regexSecond = "";
 					
-				}
-				else if(oneFormat.equals("%M")){
+					if(!firstPlus.equals(""))
+						regexFirst =  "(?=.*("+firstPlus+").*)";
+					if(!lastPlust.equals(""))
+						regexSecond = "(?=.*("+lastPlust+").*)";
 					
+					if(formatRegex.equals("%c")){
+						String t = "("+regexFirst+"(?=\\w)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%C")){
+						String t = "("+regexFirst+"(?=[\\.{1,}][a-z])"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%d")){
+						String t = "("+regexFirst+"(?=([0-9]+):([0-5][0-9]|60):([0-5][0-9]|60),([0-9]{3}))"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%F")){
+						String t = "("+regexFirst+"(?=.*(log).*)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%I")){
+						String t = "("+regexFirst+"(?=\\w)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%M")){
+						String t = "("+regexFirst+"(?=\\w)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%m")){
+						String t = "("+regexFirst+"(?=\\w)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%n")){
+						String t = "("+regexFirst+"(?=\\w)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%p")){
+						String t = "("+regexFirst+"(?=.*(INFO|ERROR|WARNING|FATAL|OFF|DEBUG|TRACE|ALL).*)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%r")){
+						String t = "("+regexFirst+"(?=\\w)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if(formatRegex.equals("%t")){
+						String t = "("+regexFirst+"(?=.*([\\(]).*)(?=.*([\\)]).*)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else if (formatRegex.equals("(%L")){
+						String t = "("+regexFirst+"(?=\\d)"+regexSecond+")";
+						allRegex = allRegex + t;
+					}
+					else{
+						
+					}
+//					System.out.println(allRegex);
+//					System.out.println(firstPlus);
+//					System.out.println(lastPlust);
+//					System.out.println(formatRegex);
 				}
-				else if(oneFormat.equals("%m")){
-					
-				}
-				else if(oneFormat.equals("%n")){
-					
-				}
-				else if(oneFormat.equals("%p")){
-					String t = "(?=.*(INFO|ERROR|WARNING|FATAL|OFF|DEBUG|TRACE|ALL).*)";
-					allRegex = allRegex + t;
-				}
-				else if(oneFormat.equals("%r")){
-					
-				}
-				else if(oneFormat.equals("%t")){
-					String t = "(?=.*([\\(]).*)(?=.*([\\)]).*)";
-					allRegex = allRegex + t;
-				}
-				else{
-					
-				}
+
+				regexTextArea.setValue(allRegex);
+			}catch(Exception e){
+				Notification.show("Format is not available", Type.ERROR_MESSAGE);
+				clearButton.click();
 			}
-			regexTextArea.setEnabled(true);
-			regexTextArea.setValue(allRegex);
-			regexTextArea.setEnabled(false);
+		
+
 			
 		}
 		
@@ -88,14 +141,39 @@ public class RegexTestPage extends VerticalLayout implements View {
 		@Override
 		public void buttonClick(ClickEvent event) {
 			regexTextArea.setEnabled(true);
-			textAreaFormat.setEnabled(true);
 			textAreaFormat.setValue("");
 			regexTextArea.setValue("");
-			regexTextArea.setEnabled(false);
-			textAreaFormat.setEnabled(false);			
+			regexTextArea.setEnabled(false);		
+			cb1.setValue(false);
+			cb2.setValue(false);
+			cb3.setValue(false);
+			cb4.setValue(false);
+			cb5.setValue(false);
+			cb7.setValue(false);
+			cb8.setValue(false);
+			cb10.setValue(false);
+			cb9.setValue(false);
+			cb11.setValue(false);
+			cb12.setValue(false);
+			cb13.setValue(false);
+			cb14.setValue(false);
 		}
 	};
 	private TextArea regexTextArea;
+	private CheckBox cb14;
+	private CheckBox cb13;
+	private CheckBox cb12;
+	private CheckBox cb11;
+	private CheckBox cb9;
+	private CheckBox cb10;
+	private CheckBox cb8;
+	private CheckBox cb7;
+	private CheckBox cb5;
+	private CheckBox cb4;
+	private CheckBox cb3;
+	private CheckBox cb2;
+	private CheckBox cb1;
+	private Button clearButton;
 
 	public RegexTestPage(){
 		createRegexTextContent();
@@ -104,8 +182,22 @@ public class RegexTestPage extends VerticalLayout implements View {
 	}
 	
 	private void createRegexTextContent() {
+		initLabelInfo();
 		createCheckBoxGroup();
 		createTextBoxRegexFormat();
+	}
+
+	private void initLabelInfo() {
+		Label info = new Label();
+		info.setContentMode(ContentMode.HTML);
+		addComponent(info);
+		info.setValue("<p>Acceptable format: </p>"
+					+ "<ol>"
+					+ "<li>All format modification should be written within the (Opening and closing) brackets ex. for %C format <b>(one%CTwo)</b></li>"
+					+ "<li>Between the format should be separated by white space ex. for %C and %r formats <b>(one%Ctwo) (test%rblah)</b></li>"
+					+ "<li>There should be no whitespace in bracet. See example above</li>"
+					+ "<li>Violation will cause an exception</li>"
+					+ "</ol>");
 	}
 
 	private void createTextBoxRegexFormat() {
@@ -113,7 +205,6 @@ public class RegexTestPage extends VerticalLayout implements View {
 		textAreaFormat.setCaption("Log4J Format:");
 		textAreaFormat.setWidth("80%");
 		textAreaFormat.setRows(2);
-		textAreaFormat.setEnabled(false);
 		addComponent(textAreaFormat);
 		
 		HorizontalLayout buttonLayout = new HorizontalLayout();
@@ -125,15 +216,14 @@ public class RegexTestPage extends VerticalLayout implements View {
 		regexGeneratorButton.setPrimaryStyleName("defaultbutton");
 		buttonLayout.addComponent(regexGeneratorButton);
 		
-		Button clearButton = new Button("Clear");
+		clearButton = new Button("Clear");
 		clearButton.setPrimaryStyleName("defaultbutton");
 		clearButton.addClickListener(clearListener);
 		buttonLayout.addComponent(clearButton);
 		
-		
 		addComponent(buttonLayout);
 		
-		 regexTextArea = new TextArea();
+		regexTextArea = new TextArea();
 		regexTextArea.setWidth("80%");
 		regexTextArea.setRows(5);
 		regexTextArea.setEnabled(false);
@@ -141,37 +231,49 @@ public class RegexTestPage extends VerticalLayout implements View {
 	}
 
 	private void createCheckBoxGroup() {
-		HorizontalLayout horizontalLayout = new HorizontalLayout();
-		horizontalLayout.setMargin(true);
-		horizontalLayout.setSpacing(true);
+		VerticalLayout verticalLayout = new VerticalLayout();
+		verticalLayout.setSpacing(true);
 		
-		CheckBox cb1 = new CheckBox("%c");
-		CheckBox cb2 = new CheckBox("%C");
-		CheckBox cb3 = new CheckBox("%d");
-		CheckBox cb4 = new CheckBox("%F");
-		CheckBox cb5 = new CheckBox("%I");
-		CheckBox cb7 = new CheckBox("%m");
-		CheckBox cb8 = new CheckBox("%M");
-		CheckBox cb9 = new CheckBox("%n");
-		CheckBox cb10 = new CheckBox("%p");
-		CheckBox cb11 = new CheckBox("%r");
-		CheckBox cb12 = new CheckBox("%t");
-		CheckBox cb13 = new CheckBox("%x");
+		HorizontalLayout comboBoxLayout = new HorizontalLayout();
+		comboBoxLayout.setMargin(true);
+		comboBoxLayout.setSpacing(true);
 		
-		cb1.setData("%c");
-		cb2.setData("%C");
-		cb3.setData("%d");
-		cb4.setData("%F");
-		cb5.setData("%I");
-		cb7.setData("%m");
-		cb8.setData("%M");
-		cb9.setData("%n");
-		cb10.setData("%p");
-		cb11.setData("%r");
-		cb12.setData("%t");
-		cb13.setData("%x");
+		HorizontalLayout textFieldLayout = new HorizontalLayout();
+		textFieldLayout.setMargin(true);
+		textFieldLayout.setSpacing(true);
 		
-		RegexPatternValueChangeListener listener = new RegexPatternValueChangeListener();
+		verticalLayout.addComponent(comboBoxLayout);
+		verticalLayout.addComponent(textFieldLayout);
+		
+		 cb1 = new CheckBox("%c");
+		 cb2 = new CheckBox("%C");
+		 cb3 = new CheckBox("%d");
+		 cb4 = new CheckBox("%F");
+		 cb5 = new CheckBox("%I");
+		 cb7 = new CheckBox("%m");
+		 cb8 = new CheckBox("%M");
+		 cb9 = new CheckBox("%n");
+		 cb10 = new CheckBox("%p");
+		 cb11 = new CheckBox("%r");
+		 cb12 = new CheckBox("%t");
+		 cb13 = new CheckBox("%x");
+		 cb14 = new CheckBox("%L");
+		
+		cb1.setData(new CBData("%c", new TextField()));
+		cb2.setData(new CBData("%C", new TextField()));
+		cb3.setData(new CBData("%d", new TextField()));
+		cb4.setData(new CBData("%F", new TextField()));
+		cb5.setData(new CBData("%I",new TextField()));
+		cb7.setData(new CBData("%m",new TextField()));
+		cb8.setData(new CBData("%M", new TextField()));
+		cb9.setData(new CBData("%n",new TextField()));
+		cb10.setData(new CBData("%p",new TextField()));
+		cb11.setData(new CBData("%r",new TextField()));
+		cb12.setData(new CBData("%t",new TextField()));
+		cb13.setData(new CBData("%x",new TextField()));
+		cb14.setData(new CBData("%L",new TextField()));
+		
+		RegexPatternValueChangeListener listener = new RegexPatternValueChangeListener(textFieldLayout);
 		cb1.addValueChangeListener(listener);
 		cb2.addValueChangeListener(listener);
 		cb3.addValueChangeListener(listener);
@@ -184,6 +286,7 @@ public class RegexTestPage extends VerticalLayout implements View {
 		cb11.addValueChangeListener(listener);
 		cb12.addValueChangeListener(listener);
 		cb13.addValueChangeListener(listener);
+		cb14.addValueChangeListener(listener);
 		
 		cb1.setImmediate(true);
 		cb2.setImmediate(true);
@@ -197,21 +300,22 @@ public class RegexTestPage extends VerticalLayout implements View {
 		cb11.setImmediate(true);
 		cb12.setImmediate(true);
 		cb13.setImmediate(true);
+		cb14.setImmediate(true);
 		
-		
-		horizontalLayout.addComponent(cb2);
-		horizontalLayout.addComponent(cb3);
-		horizontalLayout.addComponent(cb4);
-		horizontalLayout.addComponent(cb5);
-		horizontalLayout.addComponent(cb1);
-		horizontalLayout.addComponent(cb7);
-		horizontalLayout.addComponent(cb8);
-		horizontalLayout.addComponent(cb9);
-		horizontalLayout.addComponent(cb10);
-		horizontalLayout.addComponent(cb11);
-		horizontalLayout.addComponent(cb12);
-		horizontalLayout.addComponent(cb13);
-		addComponent(horizontalLayout);
+		comboBoxLayout.addComponent(cb2);
+		comboBoxLayout.addComponent(cb3);
+		comboBoxLayout.addComponent(cb4);
+		comboBoxLayout.addComponent(cb5);
+		comboBoxLayout.addComponent(cb1);
+		comboBoxLayout.addComponent(cb7);
+		comboBoxLayout.addComponent(cb8);
+		comboBoxLayout.addComponent(cb9);
+		comboBoxLayout.addComponent(cb10);
+		comboBoxLayout.addComponent(cb11);
+		comboBoxLayout.addComponent(cb12);
+		comboBoxLayout.addComponent(cb13);
+		comboBoxLayout.addComponent(cb14);
+		addComponent(verticalLayout);
 	}
 
 	@Override
@@ -221,26 +325,84 @@ public class RegexTestPage extends VerticalLayout implements View {
 	}
 	
 	private class RegexPatternValueChangeListener implements ValueChangeListener{
-		public RegexPatternValueChangeListener(){
-			
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 5818193954011701817L;
+		private HorizontalLayout parent;
+
+		public RegexPatternValueChangeListener(HorizontalLayout parent){
+			this.parent = parent;
 		}
 
 		@Override
 		public void valueChange(ValueChangeEvent event) {
 			CheckBox cb = (CheckBox) event.getProperty();
 			boolean value = cb.getValue();
-			String t = (String) cb.getData();
-			String text = textAreaFormat.getValue();
-			if(value){
-				text = text + t+" ";
-				textAreaFormat.setValue(text);				
-			}
-			else{
-				String replace = text.replaceAll(" "+t, "");
-				textAreaFormat.setValue(replace);
-			}
+			CBData data = (CBData) cb.getData();
+			String format = data.getFormat();
+			TextField textField = data.getTextField();
+			if(value)
+				parent.addComponent(textField);
+			
+			else
+				parent.removeComponent(textField);
+//			String text = textAreaFormat.getValue();
+//			if(value){
+//				text = text + t+" ";
+//				textAreaFormat.setValue(text);				
+//			}
+//			else{
+//				String replace = text.replaceAll(" "+t, "");
+//				textAreaFormat.setValue(replace);
+//			}
 			
 		}
+	}
+	
+	public static void main(String[] args){
+		String input = "(black%Cwhite) (white%dtest)";
+		String[] all = input.split(" ");
+		String allRegex = "";
+		for(int i=0;i<all.length;i++){
+			String format = all[i];
+			int indexOfFirstBracket = format.indexOf("(")+1;
+			int indexFormat = format.indexOf("%");
+			int indexOfLastBracket = format.indexOf(")") ;
+			int indexOfLastFormat = indexFormat+2;
+			String firstPlus = format.substring(indexOfFirstBracket, indexFormat).trim();
+			String lastPlust = format.substring(indexOfLastFormat, indexOfLastBracket).trim();
+			String formatRegex = format.substring(indexFormat, indexOfLastFormat).trim();
+			
+			
+			String regexFirst = "" ;
+			String regexSecond = "";
+			
+			if(!firstPlus.equals(""))
+				regexFirst =  "(?=.*("+firstPlus+").*)";
+			if(!lastPlust.equals(""))
+				regexSecond = "(?=.*("+lastPlust+").*)";
+			
+			
+			if(formatRegex.equals("%c")){
+				String t = "("+regexFirst+"(?=\\w)"+regexSecond+")";
+				allRegex = allRegex + t;
+			}
+			else if(formatRegex.equals("%C")){
+				String t = "("+regexFirst+"(?=[\\.{1,}][a-z])"+regexSecond+")";
+				allRegex = allRegex + t;
+			}
+			else if(formatRegex.equals("%d")){
+				String t = "("+regexFirst+"(?=([0-9]+):([0-5][0-9]|60):([0-5][0-9]|60),([0-9]{3}))"+regexSecond+")";
+				allRegex = allRegex + t;
+			}
+
+			System.out.println(allRegex);
+//			System.out.println(firstPlus);
+//			System.out.println(lastPlust);
+//			System.out.println(formatRegex);
+		}
+		
 	}
 
 }

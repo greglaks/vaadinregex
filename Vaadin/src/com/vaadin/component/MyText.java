@@ -15,7 +15,7 @@ import com.vaadin.ui.JavaScriptFunction;
 @com.vaadin.annotations.JavaScript({"https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", "mytext.js" })
 @StyleSheet("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
 public class MyText extends AbstractJavaScriptComponent {
-
+	private boolean isClicked = false;
 	/**
 	 * 
 	 */
@@ -59,9 +59,10 @@ public class MyText extends AbstractJavaScriptComponent {
 		
 					@Override
 					public void call(JSONArray arguments) throws JSONException {
-						String text = getState().sss;
+						String text = (String) arguments.get(0);
+						String cleanText = text.replace("<xmp>", "").replace("</xmp>", "");
 						for(OnSelectListener selectListener : onSelectListenerList){
-							selectListener.onSelect(text);
+							selectListener.onSelect(cleanText);
 						}
 		
 					}
@@ -78,7 +79,6 @@ public class MyText extends AbstractJavaScriptComponent {
 			public void call(JSONArray arguments) throws JSONException {
 				String text = (String) arguments.get(0);
 				getState().sss = text;
-
 			}
 	});
 	
