@@ -36,8 +36,9 @@ public class TimeFormat {
 		int padding = 0;
 		int start = format.indexOf("%")+1;
 		int end = format.indexOf("d");
-		String padd = format.substring(start, end);
-		padding = Integer.parseInt(padd);
+		String padd = format.substring(start, end).trim();
+		if(!padd.equals(""))
+			padding = Integer.parseInt(padd);
 		return padding;
 	}
 
@@ -45,7 +46,7 @@ public class TimeFormat {
 		String regex = "(?=";
 		int indexOpenBracet = format.indexOf("{");
 		int indexCloseBracet = format.indexOf("}");
-		if(indexOpenBracet == 0 || indexCloseBracet == 0)
+		if(indexOpenBracet == 0 || indexCloseBracet == 0 ||indexOpenBracet == -1 || indexCloseBracet == -1)
 			regex = this.regex;
 		else{
 			String dateFormat = format.substring(indexOpenBracet+1, indexCloseBracet);

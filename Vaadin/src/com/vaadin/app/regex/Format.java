@@ -21,15 +21,16 @@ public abstract class Format {
 		int padding = 0;
 		int start = format.indexOf("%")+1;
 		int end = format.indexOf(id);
-		String padd = format.substring(start, end);
-		padding = Integer.parseInt(padd);
+		String padd = format.substring(start, end).trim();
+		if(!padd.equals(""))
+			padding = Integer.parseInt(padd);
 		return padding;
 	}
 
 	protected String generateRegex() throws Exception {
 		String regex = null;
 		int padding = getPadding();
-		if(padding != -1)
+		if(padding != -1 || padding != 0)
 			regex = this.regex;
 		return regex;
 	}
