@@ -34,6 +34,7 @@ public class RegexWrapper {
 			regex = new LogFileFormat(format).getResult();
 		else
 			regex = "";
+		
 		return regex;
 	}
 	

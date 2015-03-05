@@ -13,9 +13,42 @@ public class TimeFormat {
 		try {
 			this.result = generateRegex();
 			processPadding();
+			processStartEndChar();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void processStartEndChar() {
+		String startChar = processStartChar();
+		String endChar = processEndChar();
+		String startRegex = "";
+		String endRegex = "";
+		if(!startChar.equals(""))
+			startRegex = "(.*"+startChar+".*)";
+		if(!endChar.equals(""))
+			endRegex = "(.*"+endChar+".*)";
+		
+		result = startRegex+result+endRegex;
+	}
+
+	private String processEndChar() {
+		int endRegexIndex = 0;
+		String endChar = "";
+		if(format.contains("}"))
+			endRegexIndex = format.indexOf("}");
+		
+		else
+			endRegexIndex = format.indexOf("d");			
+		
+		endChar = format.substring(endRegexIndex+1, format.length());
+		return endChar;
+	}
+
+	private String processStartChar() {
+		int startRegexIndex = format.indexOf("%");
+		String startChar = format.substring(0, startRegexIndex);
+		return startChar;
 	}
 
 	private void processPadding() {
@@ -127,7 +160,7 @@ public class TimeFormat {
 	}
 
 	public static void main(String[] args){
-		String date = "%-25d{dd-MM-yyyy HH:mm:ss}";
+		String date = "test%-25d{dd-MM-yyyy HH:mm:ss}test";
 		//String date = "%d{yyyy}";
 		TimeFormat tf  = new TimeFormat(date);
 		System.out.println(tf.getResult());

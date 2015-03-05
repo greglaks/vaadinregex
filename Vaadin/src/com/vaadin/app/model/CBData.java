@@ -26,6 +26,7 @@ public class CBData {
 	public String getRegex(){
 		RegexWrapper r = new RegexWrapper(id);
 		String format = textField.getValue();
+		this.format = format;
 		String regex = r.getRegex(format);
 		return regex;
 	}

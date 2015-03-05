@@ -52,13 +52,20 @@ public class RegexTestPage extends VerticalLayout implements View {
 			
 			try{
 				String allRegex = "";
+				String allFormat = "";
 				for(CBData data :cbList){
 					String regex = data.getRegex();
+					String format = data.getFormat();
 					allRegex = allRegex + regex;
+					allFormat = allFormat + format;
 				}
 				regexTextArea.setReadOnly(false);
 				regexTextArea.setValue(allRegex);
 				regexTextArea.setReadOnly(true);
+				
+				textAreaFormat.setReadOnly(false);
+				textAreaFormat.setValue(allFormat);
+				textAreaFormat.setReadOnly(true);
 			}catch(Exception e){
 				Notification.show("Format is not available", Type.ERROR_MESSAGE);
 				clearButton.click();
@@ -74,8 +81,10 @@ public class RegexTestPage extends VerticalLayout implements View {
 		@Override
 		public void buttonClick(ClickEvent event) {
 			regexTextArea.setReadOnly(false);
+			textAreaFormat.setReadOnly(false);
 			textAreaFormat.setValue("");
 			regexTextArea.setValue("");
+			textAreaFormat.setReadOnly(true);
 			regexTextArea.setReadOnly(true);		
 			cb1.setValue(false);
 			cb2.setValue(false);
@@ -115,7 +124,7 @@ public class RegexTestPage extends VerticalLayout implements View {
 	}
 	
 	private void createRegexTextContent() {
-		initLabelInfo();
+//		initLabelInfo();
 		createCheckBoxGroup();
 		createTextBoxRegexFormat();
 	}
@@ -138,12 +147,14 @@ public class RegexTestPage extends VerticalLayout implements View {
 		textAreaFormat.setCaption("Log4J Format:");
 		textAreaFormat.setWidth("80%");
 		textAreaFormat.setRows(4);
+		textAreaFormat.setReadOnly(true);
 		addComponent(textAreaFormat);
 
 		regexTextArea = new TextArea();
 		regexTextArea.setWidth("80%");
 		regexTextArea.setRows(5);
 		regexTextArea.setReadOnly(true);
+		regexTextArea.setCaption("Regex");
 		addComponent(regexTextArea);
 	}
 
@@ -278,11 +289,13 @@ public class RegexTestPage extends VerticalLayout implements View {
 
 			TextField textField = data.getTextField();
 			if(value){
+				textField.setValue(data.getFormat());
 				cbList.add(data);
 				parent.addComponent(textField);
 			}
 			
 			else{
+				data.getTextField().setValue("");
 				cbList.remove(data);
 				parent.removeComponent(textField);
 			}

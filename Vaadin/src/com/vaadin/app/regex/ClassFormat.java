@@ -9,6 +9,40 @@ public class ClassFormat {
 	public ClassFormat(String format){
 		this.format  = format;
 		this.result = generateRegex();
+		this.result = processStartEndChar();
+	}
+
+	private String processStartEndChar() {
+		String startChar = processStartChar();
+		String endChar = processEndChar();
+		String startRegex = "";
+		String endRegex = "";
+		if(!startChar.equals(""))
+			startRegex = "(.*"+startChar+".*)";
+		if(!endChar.equals(""))
+			endRegex = "(.*"+endChar+".*)";
+		
+		String result = startRegex+this.result+endRegex;
+		return result;
+	}
+
+	private String processEndChar() {
+		int endRegexIndex = 0;
+		String endChar = "";
+		if(format.contains("}"))
+			endRegexIndex = format.indexOf("}");
+		
+		else
+			endRegexIndex = format.indexOf("C");			
+		
+		endChar = format.substring(endRegexIndex+1, format.length());
+		return endChar;
+	}
+
+	private String processStartChar() {
+		int startRegexIndex = format.indexOf("%");
+		String startChar = format.substring(0, startRegexIndex);
+		return startChar;
 	}
 
 
@@ -42,7 +76,7 @@ public class ClassFormat {
 	}
 
 	public static void main(String[] args){
-		String format = "%.20C{2}";
+		String format = "greg%Cgreg";
 		ClassFormat c = new ClassFormat(format);
 		System.out.println("Format: "+format);
 		System.out.println("Regex: "+c.getResult());
