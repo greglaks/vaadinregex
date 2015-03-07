@@ -12,6 +12,8 @@ com_vaadin_component_MyText = function() {
 	
 	e.onmouseup = function(s){
 		 var selectText = "";
+		 var as = e;
+		 var clientRect = as.getBoundingClientRect();
 			if (window.getSelection) {
 				selectText = window.getSelection().toString();
 		    } else if (document.selection && document.selection.type != "Control") {
@@ -20,10 +22,12 @@ com_vaadin_component_MyText = function() {
 			connector.sendSelectedText(selectText);
 		
 		   //e.innerHTML = text;
+//		   var posX = s.layerX;
+//		   var posY = s.layerY;
+		   var posY = clientRect.height ;
 		   var posX = s.layerX;
-		   var posY = s.layerY;
 		   
-		   var top = (posY)-25 + 'px';
+		   var top = (posY)-60 + 'px';
 		   var left = (posX) + 'px';
 		   
 		   //var b = document.createTextNode("<div onclick=saveAlert(); class='fa fa-bell' style='position:fixed;top:"+top+";left:"+left+";color:#e74c3c;z-index:10;'></div>");

@@ -1,5 +1,7 @@
 package com.vaadin.app.regex;
 
+import com.vaadin.app.CategoryFormat;
+
 public class RegexWrapper {
 	
 	private String id;
@@ -11,7 +13,7 @@ public class RegexWrapper {
 	public String getRegex(String format) {
 		String regex = "" ;
 		if(id.equals("C"))
-			regex = new ClassFormat(format).getResult();
+			regex = new ClassAndCategoryFormat(format).getResult();
 		else if(id.equals("d"))
 			regex = new TimeFormat(format).getResult();
 		else if(id.equals("p"))
@@ -31,7 +33,11 @@ public class RegexWrapper {
 		else if(id.equals("n"))
 			regex = new SeparatorFormat(format).getResult();
 		else if(id.equals("r"))
-			regex = new LogFileFormat(format).getResult();
+			regex = new RFormat(format).getResult();
+		else if(id.equals("x"))
+			regex = new NDCFormat(format).getResult();	
+		else if(id.equals("c"))
+			regex = new CategoryFormat(format).getResult();			
 		else
 			regex = "";
 		

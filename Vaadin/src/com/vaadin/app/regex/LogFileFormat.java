@@ -4,7 +4,7 @@ public class LogFileFormat extends Format{
 
 	
 	public LogFileFormat(String format) {
-		super(format,  "(?=.*(.log|.out).*)", "F");
+		super(format,  "(?=.*(\\.log|\\.out).*)", "F");
 	}
 
 	public static void main(String[] args){

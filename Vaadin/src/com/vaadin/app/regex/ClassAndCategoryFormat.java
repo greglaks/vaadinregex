@@ -1,12 +1,13 @@
 package com.vaadin.app.regex;
 
 
-public class ClassFormat {
+public class ClassAndCategoryFormat {
 	private String format;
 	private String regex = "(?=(.*\\..*))";
 	private String result;
 
-	public ClassFormat(String format){
+
+	public ClassAndCategoryFormat(String format){
 		this.format  = format;
 		this.result = generateRegex();
 		this.result = processStartEndChar();
@@ -77,7 +78,7 @@ public class ClassFormat {
 
 	public static void main(String[] args){
 		String format = "greg%Cgreg";
-		ClassFormat c = new ClassFormat(format);
+		ClassAndCategoryFormat c = new ClassAndCategoryFormat(format);
 		System.out.println("Format: "+format);
 		System.out.println("Regex: "+c.getResult());
 	}
