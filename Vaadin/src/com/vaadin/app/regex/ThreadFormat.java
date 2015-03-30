@@ -4,7 +4,8 @@ public class ThreadFormat extends Format{
 
 	
 	public ThreadFormat(String format) {
-		super(format, "(?=.*([\\(]).*)(?=.*([\\)]).*)", "t");
+		//super(format, "(?=.*([\\(]).*)(?=.*([\\)]).*)", "t");
+		super(format, "(?=\\w)", "t");
 	}
 
 

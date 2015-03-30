@@ -1,19 +1,101 @@
 package com.vaadin.app.regex;
 
-import com.vaadin.app.CategoryFormat;
+import java.util.List;
+import java.util.Vector;
 
 public class RegexWrapper {
 	
-	private String id;
+	private static   List<String> formatList = new Vector<String>();
 
-	public RegexWrapper(String id){
-		this.id = id;
+	public RegexWrapper(){
+		initList();
+	}
+	
+	private static  void initList() {
+		formatList.add("C");
+		formatList.add("L");
+		formatList.add("F");
+		formatList.add("r");
+		formatList.add("m");
+		formatList.add("M");
+		formatList.add("x");
+		formatList.add("I");
+		formatList.add("p");
+		formatList.add("n");
+		formatList.add("t");
+		formatList.add("d");
+		formatList.add("c");
+		
+	}
+	
+	public static void main(String[] args){
+		initList();
+		String format = "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n";
+		String result = test(format);
+		System.out.println(result);
 	}
 
-	public String getRegex(String format) {
+	public static   String test(String format) {
+		String allRegex = "";
+		int startScanIndex = 0;
+		for(int i=0; i<format.length(); i++){
+			String item = String.valueOf(format.charAt(i));
+			String itemFormat = "";
+			
+			if(item.equals("%")){
+				//Search for the formats
+				int index = i;
+				while(!formatList.contains(itemFormat)){
+					index++;
+					itemFormat = String.valueOf(format.charAt(index));
+				}
+				
+				//Search for bracet
+				int bracetIndex = index+1;
+				int endOfFormatItem = index+1;
+				if(bracetIndex < format.length() && String.valueOf(format.charAt(bracetIndex)).equals("{")){
+					int endBracet = format.indexOf("}", bracetIndex);
+					endOfFormatItem = endBracet+1;
+					index = endOfFormatItem;
+				}
+				
+				String completeFormatItem  = format.substring(startScanIndex, endOfFormatItem);
+				System.out.println("Format "+i+": "+completeFormatItem);
+				i=index-1;
+				startScanIndex = endOfFormatItem;
+				allRegex = allRegex + getRegex(completeFormatItem, itemFormat);
+			}
+			
+			// Capture the last char and format it to regex
+			if(i == (format.length()-1)){
+				String endChar = format.substring(startScanIndex, format.length());
+				if(endChar.length() > 0){
+					for(int j=0;j<endChar.length(); j++){
+						String s = String.valueOf(endChar.charAt(j));
+							if(Format.getSpecialChar().contains(s))
+								allRegex = allRegex + "(.*\\"+s+".*)";
+							else
+								allRegex = allRegex + "(.*"+s+".*)";							
+					
+					}
+				}
+//				else if(endChar.length() == 0){
+//					if(Format.getSpecialChar().contains(endChar))
+//						allRegex = allRegex + "(.*\\"+endChar+".*)";
+//					else
+//						allRegex = allRegex + "(.*"+endChar+".*)";
+//				}
+			}
+				
+		}
+		return allRegex;
+
+	}
+
+	public static  String getRegex(String format, String id) {
 		String regex = "" ;
 		if(id.equals("C"))
-			regex = new ClassAndCategoryFormat(format).getResult();
+			regex = new ClassFormat(format).getResult();
 		else if(id.equals("d"))
 			regex = new TimeFormat(format).getResult();
 		else if(id.equals("p"))

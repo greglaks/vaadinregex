@@ -16,6 +16,7 @@ com_vaadin_component_MyText = function() {
 		 var clientRect = as.getBoundingClientRect();
 			if (window.getSelection) {
 				selectText = window.getSelection().toString();
+				//window.getSelection().removeAllRanges();					
 		    } else if (document.selection && document.selection.type != "Control") {
 		    	selectText = document.selection.createRange().text;
 		    }
@@ -32,9 +33,9 @@ com_vaadin_component_MyText = function() {
 		   
 		   //var b = document.createTextNode("<div onclick=saveAlert(); class='fa fa-bell' style='position:fixed;top:"+top+";left:"+left+";color:#e74c3c;z-index:10;'></div>");
 		   var b = document.createElement("DIV");
-		   var currentRange = window.getSelection().getRangeAt(0);
-		   var startNode = currentRange.startContainer;
-		   var endNode = currentRange.endContainer;
+//		   var currentRange = window.getSelection().getRangeAt(0);
+//		   var startNode = currentRange.startContainer;
+//		   var endNode = currentRange.endContainer;
 		   button = b;
 		   b.style.cssText = "position:absolute;top:"+top+";left:"+left+";color:#e74c3c;z-index:10;";
 		   b.classList.add("fa");
@@ -44,12 +45,12 @@ com_vaadin_component_MyText = function() {
 			   
 				   var selectText = "";
 					if (window.getSelection) {
-						selectText = text;
+						selectText = state.sss;
 				    } else if (document.selection && document.selection.type != "Control") {
 				    	selectText = document.selection.createRange().text;
 				    }
 					connector.onTextSelected(selectText);
-					e.removeChild(b);
+					e.innerHTML = text;
 					
 			   });
 		   //var bell = ;

@@ -21,13 +21,13 @@ public class TimeFormat {
 
 	private void processStartEndChar() {
 		String startChar = processStartChar();
-		String endChar = processEndChar();
+//		String endChar = processEndChar();
 		String startRegex = "";
 		String endRegex = "";
-		if(!startChar.equals(""))
+		if(!startChar.equals("") && !startChar.equals(" "))
 			startRegex = "(.*"+startChar+".*)";
-		if(!endChar.equals(""))
-			endRegex = "(.*"+endChar+".*)";
+//		if(!endChar.equals(""))
+//			endRegex = "(.*"+endChar+".*)";
 		
 		result = startRegex+result+endRegex;
 	}
@@ -48,7 +48,29 @@ public class TimeFormat {
 	private String processStartChar() {
 		int startRegexIndex = format.indexOf("%");
 		String startChar = format.substring(0, startRegexIndex);
-		return startChar;
+		String startRx = "";
+		if(startChar.length() == 1){
+			if(Format.getSpecialChar().contains(startChar)){
+				startRx = "\\"+startChar;
+			}			
+			else{
+				startRx = startChar;
+			}
+		}else if(startChar.length() > 0){
+			for(int i=0;i<startChar.length();i++){
+				String c = String.valueOf(startChar.charAt(i));
+				if(Format.getSpecialChar().contains(c)){
+					startRx = startRx+"\\"+c;
+				}
+				else{
+					startRx = startRx+c;
+				}
+			}
+		}
+		else{
+			
+		}
+		return startRx;
 	}
 
 	private void processPadding() {
@@ -68,9 +90,9 @@ public class TimeFormat {
 	private int getPadding() {
 		int padding = 0;
 		int start = format.indexOf("%")+1;
-		int end = format.indexOf("d");
+		int end = format.indexOf("d",start);
 		String padd = format.substring(start, end).trim();
-		if(!padd.equals(""))
+		if(!padd.equals("") && !padd.contains("."))
 			padding = Integer.parseInt(padd);
 		return padding;
 	}
