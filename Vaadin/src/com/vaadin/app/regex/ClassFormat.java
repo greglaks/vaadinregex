@@ -72,7 +72,7 @@ public class ClassFormat {
 	private String generateRegex() {
 		int separatorNum = extractSeparator();
 		if(separatorNum < 2)
-			return regex;
+			 return "(?=\\w)";
 		else{
 			String regex = "(?=";
 			int occurance = separatorNum - 1;
