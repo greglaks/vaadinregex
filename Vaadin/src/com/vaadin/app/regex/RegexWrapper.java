@@ -88,7 +88,7 @@ public class RegexWrapper {
 			}
 				
 		}
-		return allRegex;
+		return allRegex+".";
 
 	}
 
