@@ -3,7 +3,7 @@ package com.vaadin.app.regex;
 public class SeparatorFormat extends Format{
 
 	public SeparatorFormat(String format) {
-		super(format, "(?=.*\\n)", "n");
+		super(format, "(.*\\n)+", "n");
 	}
 
 }

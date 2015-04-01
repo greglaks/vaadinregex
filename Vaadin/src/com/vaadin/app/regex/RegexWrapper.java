@@ -6,6 +6,7 @@ import java.util.Vector;
 public class RegexWrapper {
 	
 	private    List<String> formatList = new Vector<String>();
+	private boolean newLineExist;
 
 	public RegexWrapper(){
 		initList();
@@ -59,6 +60,10 @@ public class RegexWrapper {
 					index = endOfFormatItem;
 				}
 				
+				if(itemFormat.equals("n")){
+					newLineExist = true;
+				}
+				
 				String completeFormatItem  = format.substring(startScanIndex, endOfFormatItem);
 				System.out.println("Format "+i+": "+completeFormatItem);
 				i=index-1;
@@ -88,7 +93,12 @@ public class RegexWrapper {
 			}
 				
 		}
-		return allRegex+".";
+		if(newLineExist){
+			return allRegex;			
+		}
+		else{
+			return allRegex+".";
+		}
 
 	}
 
