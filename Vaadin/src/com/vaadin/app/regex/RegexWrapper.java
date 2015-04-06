@@ -5,14 +5,14 @@ import java.util.Vector;
 
 public class RegexWrapper {
 	
-	private    List<String> formatList = new Vector<String>();
-	private boolean newLineExist;
+	private  List<String> formatList = new Vector<String>();
+	private  boolean newLineExist;
 
 	public RegexWrapper(){
 		initList();
 	}
 	
-	private   void initList() {
+	private  void initList() {
 		formatList.add("C");
 		formatList.add("L");
 		formatList.add("F");
@@ -31,12 +31,12 @@ public class RegexWrapper {
 	
 //	public static void main(String[] args){
 //		initList();
-//		String format = "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n";
+//		String format = "[%c](%t)";
 //		String result = test(format);
 //		System.out.println(result);
 //	}
 
-	public    String test(String format) {
+	public  String test(String format) {
 		String allRegex = "";
 		int startScanIndex = 0;
 		for(int i=0; i<format.length(); i++){
@@ -102,7 +102,7 @@ public class RegexWrapper {
 
 	}
 
-	public   String getRegex(String format, String id) {
+	public String getRegex(String format, String id) {
 		String regex = "" ;
 		if(id.equals("C"))
 			regex = new ClassFormat(format).getResult();

@@ -3,7 +3,7 @@ package com.vaadin.app.regex;
 public class RFormat extends Format{
 
 	public RFormat(String format) {
-		super(format, "(?=\\w)", "r");
+		super(format, "(?=\\d)", "r");
 		// TODO Auto-generated constructor stub
 	}
 

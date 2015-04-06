@@ -3,7 +3,7 @@ package com.vaadin.app.regex;
 public class TimeFormat {
 	
 	private String format;
-	private String regex = "(?=([0-2][0-9])):([0-5][0-9]|60):([0-5][0-9]|60),([0-9]{3}))";
+	private String regex = "(?=([0-2][0-9]):([0-5][0-9]|60):([0-5][0-9]|60),([0-9]{3}))";
 	private String timeFormatString = "yMdHsS";
 	private String result;
 	private int dateFormatLenght;
