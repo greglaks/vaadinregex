@@ -1,4 +1,4 @@
-package com.vaaadin.test;
+package com.vaadin.app.test;
 
 import java.util.regex.Pattern;
 
