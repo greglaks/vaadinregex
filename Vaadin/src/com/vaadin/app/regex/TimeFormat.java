@@ -3,7 +3,7 @@ package com.vaadin.app.regex;
 public class TimeFormat {
 	
 	private String format;
-	private String regex = "(?=([0-2][0-9]):([0-5][0-9]|60):([0-5][0-9]|60),([0-9]{3}))";
+	private String regex = "(?=.*([0-2][0-9]):([0-5][0-9]|60):([0-5][0-9]|60),([0-9]{3}).*)";
 	private String timeFormatString = "yMdHsS";
 	private String result;
 	private int dateFormatLenght;
@@ -98,7 +98,7 @@ public class TimeFormat {
 	}
 
 	private String generateRegex() throws Exception {
-		String regex = "(?=";
+		String regex = "(?=.*";
 		int indexOpenBracet = format.indexOf("{");
 		int indexCloseBracet = format.indexOf("}");
 		if(indexOpenBracet == 0 || indexCloseBracet == 0 ||indexOpenBracet == -1 || indexCloseBracet == -1)
@@ -130,7 +130,7 @@ public class TimeFormat {
 			if(!rep.equals("")){
 				regex = regex + getRegex(rep);
 			}
-			regex = regex + ")";
+			regex = regex + ".*)";
 		}
 		return regex;
 	}
